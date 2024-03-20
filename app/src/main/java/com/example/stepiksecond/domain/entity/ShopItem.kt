@@ -1,4 +1,4 @@
-package com.example.stepiksecond.domain
+package com.example.stepiksecond.domain.entity
 
 data class ShopItem(
     val id: Int,
