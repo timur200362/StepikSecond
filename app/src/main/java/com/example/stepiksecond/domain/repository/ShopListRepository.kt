@@ -1,5 +1,6 @@
 package com.example.stepiksecond.domain.repository
 
+import androidx.lifecycle.LiveData
 import com.example.stepiksecond.domain.entity.ShopItem
 
 interface ShopListRepository {
@@ -7,9 +8,9 @@ interface ShopListRepository {
 
     fun deleteShopItem(shopItem: ShopItem)
 
-    fun getShopItem(shopItemId: Int): ShopItem
-
     fun editShopItem(shopItem: ShopItem)
 
-    fun getShopList(): List<ShopItem>
+    fun getShopItem(shopItemId: Int): ShopItem
+
+    fun getShopList(): LiveData<List<ShopItem>>
 }
