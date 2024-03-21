@@ -6,10 +6,10 @@ import com.example.stepiksecond.domain.entity.ShopItem
 import com.example.stepiksecond.domain.repository.ShopListRepository
 import java.lang.RuntimeException
 
-object ShopListRepositoryImpl: ShopListRepository { //object чтобы был синглтон
-    private val shopListLD = MutableLiveData<List<ShopItem>>()
+object ShopListRepositoryImpl : ShopListRepository {
 
-    private val shopList = mutableListOf<ShopItem>()
+    private val shopListLD = MutableLiveData<List<ShopItem>>()
+    private val shopList = sortedSetOf<ShopItem>({ o1, o2 -> o1.id.compareTo(o2.id) })
 
     private var autoIncrementId = 0
 
@@ -21,7 +21,7 @@ object ShopListRepositoryImpl: ShopListRepository { //object чтобы был �
     }
 
     override fun addShopItem(shopItem: ShopItem) {
-        if (shopItem.id == ShopItem.UNDEFINED_ID){
+        if (shopItem.id == ShopItem.UNDEFINED_ID) {
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
@@ -36,17 +36,20 @@ object ShopListRepositoryImpl: ShopListRepository { //object чтобы был �
     override fun editShopItem(shopItem: ShopItem) {
         val oldElement = getShopItem(shopItem.id)
         shopList.remove(oldElement)
-        shopList.add(shopItem)
+        addShopItem(shopItem)
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
-        return shopList.find { it.id == shopItemId } ?: throw RuntimeException("Element with id $shopItemId not found")
+        return shopList.find {
+            it.id == shopItemId
+        } ?: throw RuntimeException("Element with id $shopItemId not found")
     }
 
     override fun getShopList(): LiveData<List<ShopItem>> {
-         return shopListLD
+        return shopListLD
     }
-    private fun updateList(){
+
+    private fun updateList() {
         shopListLD.value = shopList.toList()
     }
 }

@@ -1,7 +1,5 @@
 package com.example.stepiksecond.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.stepiksecond.data.repository.ShopListRepositoryImpl
 import com.example.stepiksecond.domain.entity.ShopItem
